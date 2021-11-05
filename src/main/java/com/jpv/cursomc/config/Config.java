@@ -12,6 +12,7 @@ import com.jpv.cursomc.domain.Cidade;
 import com.jpv.cursomc.domain.Cliente;
 import com.jpv.cursomc.domain.Endereco;
 import com.jpv.cursomc.domain.Estado;
+import com.jpv.cursomc.domain.ItemPedido;
 import com.jpv.cursomc.domain.Pagamento;
 import com.jpv.cursomc.domain.PagamentoComBoleto;
 import com.jpv.cursomc.domain.PagamentoComCartao;
@@ -24,6 +25,7 @@ import com.jpv.cursomc.repositories.CidadeRepository;
 import com.jpv.cursomc.repositories.ClienteRepository;
 import com.jpv.cursomc.repositories.EnderecoRepository;
 import com.jpv.cursomc.repositories.EstadoRepository;
+import com.jpv.cursomc.repositories.ItemPedidoRepository;
 import com.jpv.cursomc.repositories.PagamentoRepository;
 import com.jpv.cursomc.repositories.PedidoRepository;
 import com.jpv.cursomc.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class Config implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	
 	@Override
@@ -114,7 +119,19 @@ public class Config implements CommandLineRunner {
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 		
-	
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00 );
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
+		
 	}
 
 }
