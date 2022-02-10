@@ -1,11 +1,11 @@
-package com.jpv.cursomc.config;
+package com.jpv.cursomc.services;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 import com.jpv.cursomc.domain.Categoria;
 import com.jpv.cursomc.domain.Cidade;
@@ -30,10 +30,8 @@ import com.jpv.cursomc.repositories.PagamentoRepository;
 import com.jpv.cursomc.repositories.PedidoRepository;
 import com.jpv.cursomc.repositories.ProdutoRepository;
 
-
-@Configuration
-public class Config implements CommandLineRunner {
-	
+@Service
+public class DBService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
@@ -62,8 +60,7 @@ public class Config implements CommandLineRunner {
 	private ItemPedidoRepository itemPedidoRepository;
 	
 	
-	@Override
-	public void run(String... args) throws Exception {
+	public void instantiateDataBase() throws ParseException {
 		Categoria cat1 = new Categoria(null, "Informatica");
 		Categoria cat2 = new Categoria(null, "Escritório");
 		Categoria cat3 = new Categoria(null, "Cama mesa e banho");
@@ -163,7 +160,5 @@ public class Config implements CommandLineRunner {
 		p3.getItens().addAll(Arrays.asList(ip2));
 		
 		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
-		
 	}
-
 }
